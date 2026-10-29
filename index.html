@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carol Zhang - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap" rel="stylesheet">
+    <!-- Caveat remains a fallback when Foxlite Script is not installed locally. -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap" rel="stylesheet">
+
+    <style>
+        @font-face {
+            font-family: 'Foxlite Script Local';
+            src: url('Foxlite-Script.woff2') format('woff2'), url('Foxlite-Script.ttf') format('truetype'), url('Foxlite-Script.otf') format('opentype');
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+        }
+
+        :root {
+            --primary-font: 'Julius Sans One', sans-serif;
+            --script-font: 'Foxlite Script Local', 'Foxlite Script', 'Caveat', cursive;
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --highlight-color: #60a5fa; /* Tailwind blue-400 */
+        }
+
+        body {
+            font-family: var(--primary-font);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            /* Prevent scrollbar during loading */
+            overflow-y: hidden; 
+        }
+
+        /* --- Loading Screen Styles --- */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease-out;
+        }
+
+        #loading-screen::before {
+            content: '';
+            position: absolute;
+            inset: 14%;
+            border: 1px solid rgba(96, 165, 250, 0.16);
+            border-radius: 50%;
+            transform: scale(.72);
+            animation: loadingOrbit 3.2s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .loading-kicker, .loading-status, .loading-caption {
+            position: relative;
+            z-index: 1;
+            font-family: var(--primary-font);
+            letter-spacing: .18em;
+            text-transform: uppercase;
+        }
+
+        .loading-kicker {
+            margin-bottom: 1.2rem;
+            color: #6a9fc2;
+            font-size: .72rem;
+        }
+
+        .loading-status {
+            margin-top: 1.8rem;
+            color: #6a9fc2;
+            font-size: .68rem;
+            transition: opacity .25s ease;
+        }
+
+        .loading-caption {
+            margin-top: .65rem;
+            color: rgba(51,51,51,.45);
+            font-size: .58rem;
+            letter-spacing: .12em;
+        }
+
+        #sound-toggle {
+            position: absolute;
+            right: 2rem;
+            bottom: 1.8rem;
+            z-index: 3;
+            border: 1px solid rgba(96,165,250,.35);
+            border-radius: 999px;
+            padding: .45rem .8rem;
+            background: rgba(255,255,255,.58);
+            color: #4f86aa;
+            font-family: var(--primary-font);
+            font-size: .62rem;
+            letter-spacing: .12em;
+            cursor: pointer;
+            transition: background .25s ease, color .25s ease, transform .25s ease;
+        }
+
+        #sound-toggle:hover { background: #D4F0FF; color: #245879; transform: translateY(-2px); }
+
+        .loading-progress {
+            position: relative;
+            z-index: 1;
+            width: min(250px, 42vw);
+            height: 2px;
+            margin-top: 1rem;
+            overflow: hidden;
+            background: rgba(96, 165, 250, .15);
+        }
+
+        .loading-progress span {
+            display: block;
+            width: 0;
+            height: 100%;
+            background: #60a5fa;
+            transition: width .15s linear;
+        }
+
+        @keyframes loadingOrbit {
+            0%, 100% { transform: scale(.72) rotate(0deg); opacity: .45; }
+            50% { transform: scale(1) rotate(12deg); opacity: .9; }
+        }
+
+        .loading-text {
+            font-family: var(--script-font);
+            font-size: clamp(3.2rem, 7vw, 5rem);
+            display: flex;
+            gap: 0.2rem;
+            color: rgba(51, 51, 51, 0.1); /* Very light initial color */
+            position: relative;
+            z-index: 2;
+            white-space: nowrap;
+            line-height: 1.2;
+            overflow: visible;
+        }
+
+        .loading-text span {
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInLetter 0.5s forwards;
+        }
+
+        @keyframes fadeInLetter {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                color: rgba(51, 51, 51, 1); /* Darken to full color */
+            }
+        }
+
+        /* --- Global Layout Styles --- */
+        #main-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease-in;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Navigation */
+        nav {
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: transparent;
+            z-index: 50;
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            font-size: 1.1rem;
+            letter-spacing: 0.1em;
+        }
+
+        .nav-links a {
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--highlight-color);
+            font-weight: bold;
+        }
+
+        /* --- Home Page Styles --- */
+        #home-section {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            --cursor-x: 50%;
+            --cursor-y: 50%;
+        }
+
+        #home-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(circle 180px at var(--cursor-x) var(--cursor-y), rgba(96,165,250,.11), transparent 72%);
+            opacity: 0;
+            transition: opacity .45s ease;
+            z-index: 2;
+        }
+
+        #home-section.cursor-active::before { opacity: 1; }
+
+        .center-folder {
+            position: relative;
+            z-index: 10;
+            max-width: 60%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .center-folder img {
+            width: 100%;
+            height: auto;
+            transform: rotate(-5deg); /* Slight tilt like in design */
+            transition: transform 0.3s ease;
+        }
+        
+        .center-folder:hover img {
+             transform: rotate(0deg) scale(1.02);
+        }
+
+        .center-folder:focus-visible {
+            outline: 3px solid var(--highlight-color);
+            outline-offset: 12px;
+            border-radius: 12px;
+        }
+
+        .folder-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-5deg);
+            text-align: center;
+            width: 80%;
+            pointer-events: none; /* Let clicks pass through to folder image if needed */
+        }
+
+        .folder-name {
+            font-family: var(--script-font);
+            font-size: 4rem;
+            color: #2b5c8f; /* Matching the blue in the design */
+            margin-bottom: 0.5rem;
+        }
+
+        .folder-title {
+            font-size: 1rem;
+            color: #4a7c9f;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .folder-tags {
+            font-size: 0.8rem;
+            color: #5b8db0;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* Trail Effect Elements */
+        .trail-element {
+            position: absolute;
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0.8;
+            transition: opacity 1s ease-out, transform 1s ease-out;
+            /* Will be set by JS */
+            width: 80px; 
+            height: auto;
+        }
+
+        /* Floating elements background */
+        .floating-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .float-item {
+            position: absolute;
+            animation: float 6s ease-in-out infinite;
+            transition: filter .35s ease, margin .65s cubic-bezier(.2,.8,.2,1);
+        }
+
+        .float-item:hover {
+            filter: drop-shadow(0 10px 15px rgba(43,92,143,.16));
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        /* Barcode Footer */
+        .barcode-footer {
+            position: fixed;
+            bottom: 2rem;
+            right: 4rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            z-index: 50;
+        }
+        .barcode-footer img {
+            height: 40px;
+        }
+        .barcode-text {
+            font-family: monospace;
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            margin-top: 0.5rem;
+        }
+
+        /* --- Projects Page Styles --- */
+        #projects-section {
+            display: none;
+            padding-top: 100px; /* Space for nav */
+            min-height: 100vh;
+            padding-left: 4rem;
+            padding-right: 4rem;
+        }
+
+        .projects-container {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-end; /* Align bottoms like bookmarks */
+            height: 70vh;
+            margin-top: 2rem;
+            overflow-x: auto;
+            padding-bottom: 2rem;
+        }
+
+        .project-bookmark {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            height: 80%; /* Base height */
+            min-width: 200px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        /* Staggered heights for bookmarks */
+        .project-bookmark:nth-child(2n) { height: 90%; }
+        .project-bookmark:nth-child(3n) { height: 75%; }
+        .project-bookmark:nth-child(4n) { height: 95%; }
+
+        .project-bookmark img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .project-bookmark:hover {
+            transform: translateY(-20px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            /* Outline glow effect */
+            outline: 3px solid var(--highlight-color);
+            outline-offset: 2px;
+        }
+
+        .project-bookmark:hover img {
+            transform: scale(1.05);
+        }
+
+        /* --- Project Detail Page Styles --- */
+        #project-detail-section {
+            display: none;
+            padding-top: 100px;
+            min-height: 100vh;
+            display: flex; /* Will be set to flex via JS when active */
+        }
+
+        .sidebar-nav {
+            width: 250px;
+            padding: 2rem 4rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-nav button {
+            background: none;
+            border: none;
+            font-family: var(--primary-font);
+            font-size: 1rem;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            color: #666;
+            transition: color 0.2s;
+            text-transform: uppercase;
+        }
+
+        .sidebar-nav button:hover, .sidebar-nav button.active-sidebar {
+            color: var(--text-color);
+            font-weight: bold;
+        }
+
+        .sidebar-nav button svg {
+            margin-right: 0.5rem;
+            width: 16px;
+            height: 16px;
+            transition: transform 0.2s;
+        }
+        
+        .sidebar-nav li.expanded > button svg {
+            transform: rotate(90deg);
+        }
+
+        .sub-projects {
+            display: none;
+            padding-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .sidebar-nav li.expanded .sub-projects {
+            display: block;
+        }
+
+        .sub-projects button {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            text-transform: none;
+        }
+
+        .project-content-area {
+            margin-left: 250px; /* Space for sidebar */
+            padding: 2rem;
+            flex-grow: 1;
+            background-color: #dbeafe; /* Light blue bg from design */
+            min-height: 100vh;
+        }
+
+        .project-header {
+            margin-bottom: 2rem;
+        }
+
+        .project-title {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #2b5c8f; /* Chunky blue font color */
+            font-family: serif; /* Fallback for the chunky font in design */
+            line-height: 1.1;
+        }
+
+        .project-meta-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .project-hero-image {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .project-info-list h3 {
+            font-size: 1.5rem;
+            color: #2b5c8f;
+            margin-bottom: 0.5rem;
+            font-family: serif;
+        }
+
+        .project-info-list p {
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex !important; }
+
+    </style>
+</head>
+<body>
+
+    <div id="loading-screen">
+        <div class="loading-kicker">Personal Archive / 2026</div>
+        <div class="loading-text" id="loading-text-container">
+            <!-- Letters injected by JS -->
+        </div>
+        <div class="loading-status" id="loading-status">Indexing materials</div>
+        <div class="loading-progress" aria-hidden="true"><span id="loading-progress-bar"></span></div>
+        <div class="loading-caption">Interaction design · creative technology · social systems</div>
+        <button id="sound-toggle" type="button" aria-pressed="false">Sound Off</button>
+    </div>
+
+    <div id="main-content">
+        
+        <!-- Navigation -->
+        <nav>
+            <div class="nav-links">
+                <a onclick="navigateTo('home')" id="nav-home" class="active">Home</a>
+                <a href="project.html" id="nav-projects">Projects</a>
+                <a href="photo-film/index.html">Photo & Film</a>
+            </div>
+            <div class="nav-links">
+                <a href="about.html">About Me</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </nav>
+
+        <section id="home-section">
+            <!-- Floating Background Elements -->
+            <div class="floating-bg">
+                <img src="sprout.png" alt="Sprout cursor" class="float-item" style="top: 20%; left: 15%; width: 50px;">
+                <img src="camera.png" alt="Camera" class="float-item" style="bottom: 20%; left: 20%; width: 80px; animation-delay: 1s;">
+                <img src="blue-folder.png" alt="Blue Folder" class="float-item" style="top: 30%; right: 15%; width: 100px; animation-delay: 2s;">
+                <img src="purple-folder.png" alt="Purple Folder" class="float-item" style="bottom: 30%; left: 10%; width: 90px; animation-delay: 0.5s;">
+                <img src="airplane.png" alt="Airplane" class="float-item" style="top: 15%; right: 25%; width: 120px; animation-delay: 1.5s;">
+                <img src="clipboard-note.png" alt="Research note" class="float-item" style="top: 16%; left: 10%; width: 150px; animation-delay: 0.8s;">
+                <img src="lightbulb.png" alt="Idea lightbulb" class="float-item" style="bottom: 18%; left: 8%; width: 130px; animation-delay: 1.8s;">
+                <img src="film-roll.png" alt="Film roll" class="float-item" style="top: 22%; right: 8%; width: 125px; animation-delay: 2.4s;">
+                <img src="vinyl-record.png" alt="Vinyl record" class="float-item" style="bottom: 12%; right: 15%; width: 105px; animation-delay: 1.2s;">
+            </div>
+
+            <!-- Central Main Folder -->
+            <div class="center-folder" role="link" tabindex="0" aria-label="Open projects" onclick="window.location.href='project.html'" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.location.href='project.html'}" >
+                <!-- Using the clean version of the folder as base -->
+                <img src="main-folder.png" alt="Main Portfolio Folder" id="main-folder-img">
+                <div class="folder-text">
+                    <div class="folder-name">Carol Zhang</div>
+                    <div class="folder-title">Design Researcher</div>
+                    <div class="folder-tags">INTERACTION DESIGN · CREATIVE TECHNOLOGY · SOCIAL SYSTEMS</div>
+                </div>
+            </div>
+
+            <!-- Barcode Footer -->
+            <div class="barcode-footer">
+                <!-- Placeholder for barcode, in a real app use an actual image or barcode generator -->
+                <div style="width: 150px; height: 30px; background: repeating-linear-gradient(90deg, #000, #000 2px, transparent 2px, transparent 5px, #000 5px, #000 8px, transparent 8px, transparent 10px);"></div>
+                <div class="barcode-text">Carol Zhang</div>
+            </div>
+        </section>
+
+        <section id="projects-section" class="hidden">
+            <h2 class="text-2xl mb-4 ml-4 hidden">Projects</h2> <!-- Visually hidden but good for structure -->
+            <div class="projects-container">
+                <!-- Bookmarks will be generated by JS -->
+                <!-- Sample bookmark structure -->
+                <div class="project-bookmark" onclick="openProject('project1')">
+                    <img src="project-01-eco-link.webp" alt="Eco-Link & Refuge Link">
+                </div>
+                <div class="project-bookmark" onclick="openProject('project2')">
+                    <img src="project-02-bodylens.webp" alt="BodyLens">
+                </div>
+                <div class="project-bookmark" onclick="openProject('project3')">
+                    <img src="project-03-trace-back.webp" alt="Trace Back">
+                </div>
+                 <div class="project-bookmark" onclick="openProject('project4')">
+                    <img src="project-04-wheel-cycle.webp" alt="Wheel Cycle">
+                </div>
+                <div class="project-bookmark" onclick="openProject('project5')">
+                    <img src="project-05-cuddlepods.webp" alt="CuddlePods">
+                </div>
+                <div class="project-bookmark" onclick="openProject('project6')">
+                    <img src="project-06-airth.webp" alt="Airth">
+                </div>
+            </div>
+        </section>
+
+        <section id="project-detail-section" class="hidden">
+            <!-- Sidebar Navigation -->
+            <aside class="sidebar-nav">
+                <ul>
+                    <li class="expanded">
+                        <button onclick="toggleSidebarMenu(this)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                            PROJECTS
+                        </button>
+                        <div class="sub-projects">
+                            <button class="active-sidebar" onclick="loadProjectContent('project1')">ECO-LINK & REFUGE LINK</button>
+                            <button onclick="loadProjectContent('project2')">BODYLENS</button>
+                            <button onclick="loadProjectContent('project3')">TRACE BACK</button>
+                            <button onclick="loadProjectContent('project4')">WHEEL CYCLE</button>
+                            <button onclick="loadProjectContent('project5')">CUDDLEPODS</button>
+                            <button onclick="loadProjectContent('project6')">AIRTH</button>
+                        </div>
+                    </li>
+                </ul>
+            </aside>
+
+            <!-- Main Content Area for Project -->
+            <main class="project-content-area" id="project-content-container">
+                <!-- Content will be injected dynamically -->
+            </main>
+        </section>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initLoadingAnimation();
+            initTrailEffect();
+            initSoundControls();
+        });
+
+        function initSoundControls() {
+            const toggle = document.getElementById('sound-toggle');
+            let enabled = false;
+            const sounds = {
+                page: 'sound-page-turn.mp3',
+                open: 'sound-folder-open.wav',
+                close: 'sound-folder-close.wav'
+            };
+            function playSound(file, volume = .16) {
+                if (!enabled) return;
+                const audio = new Audio(file);
+                audio.volume = volume;
+                audio.play().catch(() => {});
+            }
+            toggle.addEventListener('click', () => {
+                enabled = !enabled;
+                toggle.textContent = enabled ? 'Sound On' : 'Sound Off';
+                toggle.setAttribute('aria-pressed', String(enabled));
+                if (enabled) playSound(sounds.page, .12);
+            });
+            document.addEventListener('click', (event) => {
+                const folder = event.target.closest('.center-folder');
+                if (!folder || !enabled) return;
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                playSound(sounds.open, .18);
+                setTimeout(() => { window.location.href = 'project.html'; }, 180);
+            }, true);
+            document.getElementById('nav-projects').addEventListener('click', () => playSound(sounds.close, .14), true);
+        }
+
+        // --- Loading Animation Logic ---
+        function initLoadingAnimation() {
+            const name = "Carol Zhang";
+            const container = document.getElementById('loading-text-container');
+            
+            // Create spans for each letter
+            for (let i = 0; i < name.length; i++) {
+                let char = name[i];
+                let span = document.createElement('span');
+                span.textContent = char === ' ' ? '\u00A0' : char; // Handle spaces
+                // Stagger the animation delay for each letter
+                span.style.animationDelay = `${i * 0.1}s`;
+                container.appendChild(span);
+            }
+
+            // Calculate total time needed for animation to complete
+            // (length of string * delay per char) + animation duration + buffer
+            const totalDuration = 2800;
+            const progressBar = document.getElementById('loading-progress-bar');
+            const status = document.getElementById('loading-status');
+            const statusSteps = ['Indexing materials', 'Arranging fragments', 'Opening archive'];
+            const startTime = performance.now();
+            function updateLoadingProgress(now) {
+                const elapsed = now - startTime;
+                const progress = Math.min(1, elapsed / totalDuration);
+                progressBar.style.width = `${progress * 100}%`;
+                status.textContent = statusSteps[Math.min(statusSteps.length - 1, Math.floor(progress * statusSteps.length))];
+                if (progress < 1) requestAnimationFrame(updateLoadingProgress);
+            }
+            requestAnimationFrame(updateLoadingProgress);
+
+            setTimeout(() => {
+                const loadingScreen = document.getElementById('loading-screen');
+                const mainContent = document.getElementById('main-content');
+                mainContent.style.display = 'block';
+                void mainContent.offsetWidth;
+                mainContent.style.opacity = '1';
+                loadingScreen.style.opacity = '0';
+                
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                    document.body.style.overflowY = 'auto'; // Restore scroll if needed
+                }, 1000); // Wait for fade out transition
+
+            }, totalDuration);
+        }
+
+        // --- Navigation Logic ---
+        const sections = {
+            'home': document.getElementById('home-section'),
+            'projects': document.getElementById('projects-section'),
+            'detail': document.getElementById('project-detail-section')
+        };
+
+        const navLinks = {
+            'home': document.getElementById('nav-home'),
+            'projects': document.getElementById('nav-projects')
+        };
+
+        function navigateTo(targetId) {
+            // Hide all sections
+            Object.values(sections).forEach(sec => {
+                sec.classList.add('hidden');
+                sec.classList.remove('flex'); // Remove flex if added dynamically
+            });
+
+            // Update nav active states
+            Object.values(navLinks).forEach(link => link.classList.remove('active'));
+            if(navLinks[targetId]) {
+                navLinks[targetId].classList.add('active');
+            }
+
+            // Show target section
+            if (targetId === 'home') {
+                sections['home'].classList.remove('hidden');
+            } else if (targetId === 'projects') {
+                sections['projects'].classList.remove('hidden');
+                // Ensure projects nav is active when viewing project list
+                navLinks['projects'].classList.add('active');
+            } else if (targetId === 'detail') {
+                sections['detail'].classList.remove('hidden');
+                sections['detail'].classList.add('flex');
+                // Ensure projects nav is active when viewing details
+                navLinks['projects'].classList.add('active');
+            }
+        }
+
+        // --- Projects Logic ---
+        function openProject(projectId) {
+            navigateTo('detail');
+            loadProjectContent(projectId);
+        }
+
+        function toggleSidebarMenu(button) {
+            const li = button.parentElement;
+            li.classList.toggle('expanded');
+        }
+
+        // Project content for the six bookmark covers
+        const projectData = {
+            'project1': {
+                title: 'Eco-link & Refuge Link',
+                image: 'project-01-eco-link.webp',
+                service: 'A hybrid learning and support system for climate-displaced communities.',
+                duration: '2025.02-05',
+                type: 'Personal project',
+                desc: 'Eco-Link + Refuge Link is a hybrid learning and support system for climate-displaced communities. Eco-Link combines a physical card-based board game with AR events, placing players in the role of people forced from their homes by rising sea levels, drought and extreme weather. Through strategic resource decisions and branching scenarios, players experience the pressures of displacement and reflect on its human impact.'
+            },
+            'project2': {
+                title: 'BodyLens', image: 'project-02-bodylens.webp',
+                service: 'A calm interface for understanding personal health signals.', duration: '2024-2025', type: 'Research-led project',
+                desc: 'BodyLens helps people record symptoms and body signals without amplifying health anxiety. The system combines a body map, symptom timeline and privacy-aware information experience.'
+            },
+            'project3': {
+                title: 'Trace Back', image: 'project-03-trace-back.webp',
+                service: 'A wearable system for post-exercise recovery.', duration: '2025', type: 'Physical computing project',
+                desc: 'Trace Back explores the transition from post-exercise alertness to sleep through heart-rate, breathing and gentle multisensory feedback.'
+            },
+            'project4': {
+                title: 'Wheel Cycle', image: 'project-04-wheel-cycle.webp',
+                service: 'A circular service system for shared bicycles.', duration: '2024', type: 'Service design project',
+                desc: 'Wheel Cycle connects reporting, repair, reuse and community participation so that abandoned shared bicycles can return to public life.'
+            },
+            'project5': {
+                title: 'CuddlePods', image: 'project-05-cuddlepods.webp',
+                service: 'A tangible companion for long-distance partners.', duration: '2024', type: 'Tangible interaction project',
+                desc: 'CuddlePods translates touch, warmth and light into a low-burden way for people in long-distance relationships to feel each other’s presence.'
+            },
+            'project6': {
+                title: 'Airth', image: 'project-06-airth.webp',
+                service: 'A 3D healing game based on emotional weather.', duration: '2024', type: 'Immersive experience project',
+                desc: 'Airth turns emotional states into a responsive world where weather, exploration and companionship create a gentle space for reflection.'
+            },
+            'default': {
+                title: 'Eco-link & Refuge Link', image: 'project-01-eco-link.webp',
+                service: 'A hybrid learning and support system for climate-displaced communities.', duration: '2025', type: 'Personal project',
+                desc: 'A hybrid learning and support system for climate-displaced communities.'
+            }
+        };
+
+        function loadProjectContent(projectId) {
+            const data = projectData[projectId] || projectData['default'];
+            const container = document.getElementById('project-content-container');
+            
+            // Update active state in sidebar
+            document.querySelectorAll('.sub-projects button').forEach(btn => btn.classList.remove('active-sidebar'));
+            // Keep the sidebar highlight aligned with the selected project.
+            const btns = document.querySelectorAll('.sub-projects button');
+            const projectIndex = ['project1', 'project2', 'project3', 'project4', 'project5', 'project6'].indexOf(projectId);
+            if (projectIndex >= 0 && btns[projectIndex]) btns[projectIndex].classList.add('active-sidebar');
+
+            // If it's project1, we try to mimic the specific design layout
+            let contentHTML = `
+                <div class="project-header">
+                    <h1 class="project-title">${data.title}</h1>
+                </div>
+                <div class="project-meta-grid">
+                    <div class="left-col">
+                        <img src="${data.image}" alt="${data.title}" class="project-hero-image">
+                    </div>
+                    <div class="right-col project-info-list">
+                        <div class="mb-6">
+                            <h3>Service</h3>
+                            <p>${data.service}</p>
+                        </div>
+                        <div class="mb-6">
+                            <h3>Duration</h3>
+                            <p>${data.duration} <br> <em>${data.type}</em></p>
+                        </div>
+                        <div class="mb-6">
+                            <h3>Target Users</h3>
+                            <p>Information about target users...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-8">
+                    <p class="text-sm leading-relaxed max-w-3xl">${data.desc}</p>
+                </div>
+            `;
+
+            container.innerHTML = contentHTML;
+        }
+
+        // --- Trail Effect Logic ---
+        function initTrailEffect() {
+            const homeSection = document.getElementById('home-section');
+            const floatingItems = [...homeSection.querySelectorAll('.float-item')];
+            homeSection.addEventListener('pointermove', (e) => {
+                const rect = homeSection.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width;
+                const y = (e.clientY - rect.top) / rect.height;
+                homeSection.style.setProperty('--cursor-x', `${x * 100}%`);
+                homeSection.style.setProperty('--cursor-y', `${y * 100}%`);
+                homeSection.classList.add('cursor-active');
+                floatingItems.forEach((item, index) => {
+                    const depth = (index % 4 + 1) * 1.6;
+                    item.style.marginLeft = `${(x - .5) * depth * 2}px`;
+                    item.style.marginTop = `${(y - .5) * depth * 2}px`;
+                });
+            });
+            homeSection.addEventListener('pointerleave', () => {
+                homeSection.classList.remove('cursor-active');
+                floatingItems.forEach(item => { item.style.marginLeft = '0px'; item.style.marginTop = '0px'; });
+            });
+            const trailAssets = [
+                'sprout.png',
+                'camera.png',
+                'blue-folder.png',
+                'purple-folder.png',
+                'airplane.png',
+                'clipboard-note.png',
+                'lightbulb.png',
+                'film-roll.png',
+                'vinyl-record.png'
+            ];
+            
+            let trailTimer;
+            let lastX = 0;
+            let lastY = 0;
+            const threshold = 50; // Minimum distance to spawn a new element
+
+            homeSection.addEventListener('mousemove', (e) => {
+                // Check distance from last spawn
+                const deltaX = e.clientX - lastX;
+                const deltaY = e.clientY - lastY;
+                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+                if (distance > threshold) {
+                    spawnTrailElement(e.clientX, e.clientY);
+                    lastX = e.clientX;
+                    lastY = e.clientY;
+                }
+            });
+
+            function spawnTrailElement(x, y) {
+                const el = document.createElement('img');
+                // Pick a random asset
+                el.src = trailAssets[Math.floor(Math.random() * trailAssets.length)];
+                el.classList.add('trail-element');
+                
+                // Randomize size slightly
+                const size = Math.random() * 40 + 40; // 40px to 80px
+                el.style.width = `${size}px`;
+                
+                // Center element on cursor
+                el.style.left = `${x - size/2}px`;
+                el.style.top = `${y - size/2}px`;
+                
+                // Random initial rotation
+                const rot = Math.random() * 360;
+                el.style.transform = `rotate(${rot}deg)`;
+
+                homeSection.appendChild(el);
+
+                // Animate out
+                setTimeout(() => {
+                    // Drift down and fade
+                    el.style.transform = `translateY(100px) rotate(${rot + 45}deg) scale(0.5)`;
+                    el.style.opacity = '0';
+                    
+                    // Remove after transition
+                    setTimeout(() => {
+                        if (el.parentNode) {
+                            el.parentNode.removeChild(el);
+                        }
+                    }, 1000); // Matches CSS transition duration
+                }, 50); // Small delay to ensure initial state is rendered before animation starts
+            }
+        }
+
+    </script>
+</body>
+</html>

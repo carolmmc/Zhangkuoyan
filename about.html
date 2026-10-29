@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="About Kuoyan Zhang, a digital media artist and interaction designer working across immersive technology, HCI research and visual storytelling.">
+<title>About — Kuoyan Zhang</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:FoxliteLocal;src:url('Foxlite-Script.ttf') format('truetype');font-display:swap}
+:root{--ink:#171918;--muted:#69716e;--line:#d8dcd8;--paper:#f5f5f1;--card:#fbfbf8;--accent:#3d83b7;--sans:Arial,Helvetica,sans-serif;--display:'Julius Sans One',Arial,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;color:var(--ink);background:var(--paper);font-family:var(--display)}
+a{color:inherit}
+.topbar{height:84px;display:flex;align-items:center;gap:6vw;padding:0 5.3vw;background:#fff;border-bottom:1px solid var(--line)}
+.wordmark{font-family:FoxliteLocal,'Brush Script MT',cursive;font-size:25px;color:var(--ink);text-decoration:none;white-space:nowrap}
+.topnav{display:flex;justify-content:space-between;align-items:center;flex:1;gap:2vw}
+.topnav a{font-size:16px;letter-spacing:.04em;white-space:nowrap;color:inherit;text-decoration:none}
+.topnav a:hover,.topnav a.active{font-weight:700}
+.archive{width:min(1240px,89vw);margin:0 auto;padding:54px 0 76px}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:clamp(48px,8vw,112px);align-items:end;padding-bottom:54px;border-bottom:1px solid var(--ink)}
+.eyebrow,.section-index,.micro-label{margin:0;font-size:11px;line-height:1.4;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.hero h1{max-width:820px;margin:18px 0 8px;font-size:clamp(52px,8vw,105px);font-weight:400;line-height:.88;letter-spacing:-.055em}
+.role{margin:0 0 28px;font-size:clamp(18px,2vw,27px);line-height:1.3;color:var(--accent)}
+.bio{max-width:760px;margin:0;font-family:var(--sans);font-size:18px;line-height:1.65;color:#39423f}
+.hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.action{display:inline-flex;align-items:center;min-height:40px;padding:0 15px;border:1px solid #aeb9b5;border-radius:999px;background:transparent;font-size:11px;letter-spacing:.12em;text-decoration:none;transition:background .2s ease,color .2s ease,border-color .2s ease}
+.action:hover{background:var(--ink);border-color:var(--ink);color:#fff}
+.portrait{margin:0}
+.portrait-frame{aspect-ratio:4/5;overflow:hidden;border-radius:14px;background:#fff;border:1px solid var(--line)}
+.portrait img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 38%}
+.portrait figcaption{display:flex;justify-content:space-between;gap:16px;margin-top:12px;font-size:10px;line-height:1.5;letter-spacing:.13em;color:var(--muted)}
+.quick-facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-bottom:1px solid var(--line)}
+.quick-fact{min-height:112px;padding:24px 22px;border-right:1px solid var(--line)}
+.quick-fact:first-child{padding-left:0}
+.quick-fact:last-child{border-right:0}
+.quick-fact strong{display:block;margin-top:9px;font-family:var(--sans);font-size:14px;line-height:1.45;font-weight:500;color:#343b39}
+.cv-section{display:grid;grid-template-columns:150px minmax(0,1fr);gap:clamp(38px,6vw,86px);padding:42px 0;border-bottom:1px solid var(--line)}
+.section-index{padding-top:4px;color:var(--accent)}
+.section-body{min-width:0}
+.section-title{margin:0 0 26px;font-size:25px;font-weight:400;line-height:1.2;letter-spacing:-.02em}
+.record{display:grid;grid-template-columns:142px minmax(0,1fr);gap:25px;padding:0 0 24px;margin:0 0 24px;border-bottom:1px solid var(--line)}
+.record:last-child{padding-bottom:0;margin-bottom:0;border-bottom:0}
+.date{font-size:11px;line-height:1.6;letter-spacing:.07em;color:var(--muted)}
+.record h3{margin:0 0 6px;font-family:var(--sans);font-size:16px;line-height:1.4;font-weight:700}
+.record .subtitle{display:block;margin-bottom:9px;font-size:12px;line-height:1.45;color:var(--accent)}
+.record p{margin:0;font-family:var(--sans);font-size:14px;line-height:1.65;color:#414a47}
+.record p+p{margin-top:8px}
+.publication-title{font-style:italic}
+.inline-link{display:inline-block;margin-top:12px;font-size:10px;letter-spacing:.12em;text-underline-offset:4px;color:var(--accent)}
+.award-list{display:grid;gap:0;margin:0;padding:0;list-style:none}
+.award-list li{display:grid;grid-template-columns:1fr 86px;gap:28px;padding:13px 0;border-bottom:1px solid var(--line);font-family:var(--sans);font-size:14px;line-height:1.45;color:#39423f}
+.award-list li:first-child{padding-top:0}
+.award-list li:last-child{border-bottom:0;padding-bottom:0}
+.award-list time{text-align:right;font-family:var(--display);font-size:10px;letter-spacing:.08em;color:var(--muted)}
+.skill-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 42px}
+.skill h3{margin:0 0 8px;font-family:var(--sans);font-size:15px;line-height:1.4}
+.skill p{margin:0;font-family:var(--sans);font-size:14px;line-height:1.65;color:#414a47}
+.footer{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;padding-top:38px}
+.footer-copy{margin-top:11px;font-family:var(--sans);font-size:14px;line-height:1.7;color:#414a47}
+.footer-copy a{color:var(--accent);text-underline-offset:4px}
+.signature{font-family:FoxliteLocal,'Brush Script MT',cursive;font-size:38px;white-space:nowrap}
+@media(max-width:900px){
+  .topbar{height:auto;min-height:76px;padding:18px 20px;align-items:flex-start;overflow:auto}
+  .topnav{gap:22px}.topnav a{font-size:12px}
+  .archive{width:auto;margin:0;padding:34px 20px 54px}
+  .hero{grid-template-columns:minmax(0,1fr) 230px;gap:38px;padding-bottom:38px}
+  .bio{font-size:16px}
+  .quick-facts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .quick-fact:nth-child(2){border-right:0}.quick-fact:nth-child(-n+2){border-bottom:1px solid var(--line)}.quick-fact:nth-child(3){padding-left:0}
+  .cv-section{grid-template-columns:112px minmax(0,1fr);gap:28px}
+}
+@media(max-width:640px){
+  .hero{display:flex;flex-direction:column;align-items:stretch}
+  .hero-copy{order:2}.portrait{order:1;width:min(76vw,290px)}
+  .hero h1{font-size:54px}
+  .quick-facts{grid-template-columns:1fr}
+  .quick-fact,.quick-fact:first-child,.quick-fact:nth-child(3){min-height:auto;padding:18px 0;border-right:0;border-bottom:1px solid var(--line)}
+  .quick-fact:last-child{border-bottom:0}
+  .cv-section{display:block;padding:32px 0}
+  .section-index{margin-bottom:20px}
+  .record{grid-template-columns:1fr;gap:8px}
+  .award-list li{grid-template-columns:1fr;gap:5px}.award-list time{text-align:left}
+  .skill-grid{grid-template-columns:1fr;gap:24px}
+  .footer{display:block}.signature{margin-top:28px}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="wordmark" href="index.html">Carol Zhang</a>
+  <nav class="topnav" aria-label="Primary navigation">
+    <a href="index.html">HOME</a>
+    <a href="project.html">PROJECTS</a>
+    <a href="photo-film/index.html">PHOTO &amp; FILM</a>
+    <a class="active" href="about.html">ABOUT ME</a>
+    <a href="contact.html">CONTACT</a>
+  </nav>
+</header>
+
+<main class="archive">
+  <section class="hero" aria-labelledby="about-title">
+    <div class="hero-copy">
+      <p class="eyebrow">Personal archive / Profile 2026</p>
+      <h1 id="about-title">Kuoyan Zhang</h1>
+      <p class="role">Digital Media Artist &amp; Interaction Designer</p>
+      <p class="bio">I explore how interaction design, immersive technology and visual storytelling can turn complex emotional, cultural and social experiences into experiences that feel more understandable, humane and engaging. My practice moves between HCI research, VR prototyping, digital media and collaborative visual production.</p>
+      <div class="hero-actions">
+        <a class="action" href="Kuoyan-Zhang-CV.pdf" target="_blank" rel="noopener noreferrer">View CV ↗</a>
+        <a class="action" href="mailto:13832130641@163.com">Email me ↗</a>
+      </div>
+    </div>
+    <figure class="portrait">
+      <div class="portrait-frame"><img src="kuoyan-zhang-portrait.jpg" alt="Portrait of Kuoyan Zhang"></div>
+      <figcaption><span>KUOYAN ZHANG</span><span>PORTRAIT / 2026</span></figcaption>
+    </figure>
+  </section>
+
+  <section class="quick-facts" aria-label="Profile summary">
+    <div class="quick-fact"><p class="micro-label">Based in</p><strong>Shenzhen, China</strong></div>
+    <div class="quick-fact"><p class="micro-label">Education</p><strong>Digital Media Art, HITSZ</strong></div>
+    <div class="quick-fact"><p class="micro-label">Focus</p><strong>HCI · VR · Visual Storytelling</strong></div>
+    <div class="quick-fact"><p class="micro-label">Language</p><strong>English — IELTS 7.0</strong></div>
+  </section>
+
+  <section class="cv-section">
+    <p class="section-index">01 / Education</p>
+    <div class="section-body">
+      <h2 class="section-title">Academic background</h2>
+      <article class="record">
+        <div class="date">2023.06—2027.06<br>Shenzhen, China</div>
+        <div><h3>Harbin Institute of Technology (Shenzhen)</h3><span class="subtitle">Future Design School · Digital Media Art</span><p>GPA 87.6 / 100. Recipient of the First-Class Scholarship in 2026 and the Second-Class Scholarship in 2025.</p></div>
+      </article>
+      <article class="record">
+        <div class="date">2025.07—08<br>Oxford, UK</div>
+        <div><h3>University of Oxford</h3><span class="subtitle">Oxford Prospects and Global Development Institute · Regent’s Park College</span><p>Completed Literature, Language, Digital Culture and Communication with Grade A. Led a short-film project that received a Bronze Award at the 2025 Asia Trans-A Design Innovation Award.</p></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="cv-section">
+    <p class="section-index">02 / Research</p>
+    <div class="section-body">
+      <h2 class="section-title">Selected research &amp; design</h2>
+      <article class="record">
+        <div class="date">2025.10—2026.04<br>Core member</div>
+        <div><h3>AIRTH: Emotion-Aware VR Companion Game</h3><span class="subtitle">Emotion mapping · AI companionship · VR interaction</span><p>Designed emotion mapping across weather, environment and companion feedback; developed playable Unity VR interactions and research frameworks. The project received a National First Prize in the China Creative Challenges Contest and was accepted to the peer-reviewed SIGGRAPH Asia 2026 Posters Program.</p></div>
+      </article>
+      <article class="record">
+        <div class="date">2025.07—11<br>Individual study</div>
+        <div><h3>From Fear to Care</h3><span class="subtitle">HCI research · Digital health communication</span><p>Conducted a mixed-method study on supportive and risk-framed health advertising, including a baseline survey (N=118), a controlled framing experiment, quantitative modelling and thematic coding. Published in the Proceedings of ICBDSS 2025.</p></div>
+      </article>
+      <article class="record">
+        <div class="date">2024.03—2025.05<br>Core member</div>
+        <div><h3>Ancient Shu Civilization VR Serious Game</h3><span class="subtitle">Cultural heritage · Unreal Engine · UX testing</span><p>Translated archaeological and museum research into gamified narratives, virtual environments and Blueprint interactions. Refined navigation and feedback through usability testing and delivered a playable exhibition demo.</p></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="cv-section">
+    <p class="section-index">03 / Experience</p>
+    <div class="section-body">
+      <h2 class="section-title">Professional practice</h2>
+      <article class="record"><div class="date">2025.06—2026.06</div><div><h3>Campus Ambassador · Procter &amp; Gamble (China)</h3><p>Built a campus recruitment IP visual system, developed gamified recruitment content and supported online-offline brand campaigns with mentors and a 12-member project team.</p></div></article>
+      <article class="record"><div class="date">2025.12—2026.02</div><div><h3>Digital Media Intern · Dalian Xinzhi Ruixing Technology</h3><p>Organized and optimized robotic 3D assets, evaluated visual quality and compatibility, and proposed 10+ solutions improving model performance and digital content workflows.</p></div></article>
+      <article class="record"><div class="date">2024.07—09</div><div><h3>Intern · Shenzhen Guan Shanyue Art Museum</h3><p>Built structured exhibition archives, captured multimedia assets and translated artist interviews and curatorial ideas into cross-platform visual and editorial content.</p></div></article>
+    </div>
+  </section>
+
+  <section class="cv-section">
+    <p class="section-index">04 / Leadership</p>
+    <div class="section-body">
+      <h2 class="section-title">Student work</h2>
+      <article class="record"><div class="date">2025.12—Present</div><div><h3>Chairperson · Student Media Center, HITSZ</h3><p>Directed publicity coverage for 50+ campus events, delivered 40+ multimedia pieces and mentored a 100-member cross-functional student media team.</p></div></article>
+      <article class="record"><div class="date">2023.09—Present</div><div><h3>Monitor · Class 1 of Digital Media Art, HITSZ</h3><p>Coordinates class administration, learning exchanges and faculty-student communication. Recognized as Outstanding Student Cadre for three consecutive academic years.</p></div></article>
+    </div>
+  </section>
+
+  <section class="cv-section">
+    <p class="section-index">05 / Publications</p>
+    <div class="section-body">
+      <h2 class="section-title">Published &amp; accepted work</h2>
+      <article class="record">
+        <div class="date">26 FEB 2026<br>First author</div>
+        <div><h3 class="publication-title">From Fear to Care: Designing Supportive and Privacy-Conscious Health Advertising</h3><p>Proceedings of the 2025 6th International Conference on Big Data and Social Sciences.</p><a class="inline-link" href="https://doi.org/10.2991/978-94-6239-598-5_18" target="_blank" rel="noopener noreferrer">DOI / 10.2991/978-94-6239-598-5_18 ↗</a></div>
+      </article>
+      <article class="record">
+        <div class="date">1—4 DEC 2026<br>First author</div>
+        <div><h3 class="publication-title">AIRTH: An Immersive VR Healing Space Integrating Emotion Mapping and Non-judgmental AI Companionship</h3><p>Accepted for presentation as a peer-reviewed poster at ACM SIGGRAPH Asia 2026 Posters.</p></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="cv-section">
+    <p class="section-index">06 / Recognition</p>
+    <div class="section-body">
+      <h2 class="section-title">Selected honors &amp; awards</h2>
+      <ul class="award-list">
+        <li><span>First-Class Scholarship, HITSZ</span><time>2026.09</time></li>
+        <li><span>National Third Prize, “Challenge Cup” Competition</span><time>2026.06</time></li>
+        <li><span>Silver Award, China International College Students’ Innovation Competition</span><time>2025.12</time></li>
+        <li><span>Second Prize, National College Students’ E-Commerce “Innovation, Creativity and Entrepreneurship” Challenge</span><time>2025.12</time></li>
+        <li><span>Second-Class Scholarship, HITSZ</span><time>2025.06</time></li>
+        <li><span>Third Prize, Chinese Collegiate Computing Competition</span><time>2025.06</time></li>
+        <li><span>Silver Award, Tsinghua University Rural Revitalization Social Practice Program</span><time>2024.06</time></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="cv-section">
+    <p class="section-index">07 / Toolkit</p>
+    <div class="section-body">
+      <h2 class="section-title">Skills &amp; methods</h2>
+      <div class="skill-grid">
+        <div class="skill"><h3>Programming &amp; development</h3><p>Python · C# · HTML/CSS · Unity · Unreal Engine Blueprints</p></div>
+        <div class="skill"><h3>Design &amp; multimedia</h3><p>Photoshop · Illustrator · Premiere Pro · Procreate · AutoCAD</p></div>
+        <div class="skill"><h3>Research &amp; analytics</h3><p>SPSS · Tableau · user research · controlled studies · UX testing</p></div>
+        <div class="skill"><h3>Interaction practice</h3><p>VR prototyping · emotion-aware interaction · game design · visual storytelling</p></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div><p class="micro-label">Contact / Open to conversation</p><p class="footer-copy"><a href="mailto:13832130641@163.com">13832130641@163.com</a><br><span>Backup: <a href="mailto:carolsjz2023@163.com">carolsjz2023@163.com</a></span><br>Based in Shenzhen, China</p></div>
+    <div class="signature">Kuoyan Zhang</div>
+  </footer>
+</main>
+</body>
+</html>

@@ -1,0 +1,13 @@
+Sound effects used by the portfolio
+
+sound-folder-open.wav
+sound-folder-close.wav
+Source: OpenGameArt — “Opening and Closing a Map Sounds”
+License: CC0
+Source page: https://opengameart.org/content/opening-and-closing-a-map-sounds
+Creator credit: Spring Spring / Spring Enterprises
+
+sound-page-turn.mp3
+Source: Mixkit — Free Paper Sound Effects, preview item 1101
+License: Mixkit License
+Source page: https://mixkit.co/free-sound-effects/paper/
