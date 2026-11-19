@@ -52,7 +52,7 @@
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            transition: opacity 1s ease-out;
+            transition: opacity 450ms ease-out;
         }
 
         #loading-screen::before {
@@ -152,7 +152,7 @@
         .loading-text span {
             opacity: 0;
             transform: translateY(10px);
-            animation: fadeInLetter 0.5s forwards;
+            animation: fadeInLetter 0.35s forwards;
         }
 
         @keyframes fadeInLetter {
@@ -167,7 +167,7 @@
         #main-content {
             display: none;
             opacity: 0;
-            transition: opacity 1s ease-in;
+            transition: opacity 450ms ease-in;
             min-height: 100vh;
             position: relative;
         }
@@ -687,13 +687,11 @@
                 let span = document.createElement('span');
                 span.textContent = char === ' ' ? '\u00A0' : char; // Handle spaces
                 // Stagger the animation delay for each letter
-                span.style.animationDelay = `${i * 0.1}s`;
+                span.style.animationDelay = `${i * 70}ms`;
                 container.appendChild(span);
             }
 
-            // Calculate total time needed for animation to complete
-            // (length of string * delay per char) + animation duration + buffer
-            const totalDuration = 2800;
+            const totalDuration = 1550;
             const progressBar = document.getElementById('loading-progress-bar');
             const status = document.getElementById('loading-status');
             const statusSteps = ['Indexing materials', 'Arranging fragments', 'Opening archive'];
@@ -718,7 +716,7 @@
                 setTimeout(() => {
                     loadingScreen.style.display = 'none';
                     document.body.style.overflowY = 'auto'; // Restore scroll if needed
-                }, 1000); // Wait for fade out transition
+                }, 450); // Matches the loading screen fade-out
 
             }, totalDuration);
         }
